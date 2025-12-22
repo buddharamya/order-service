@@ -6,4 +6,6 @@ import com.microserviceprojects.order_service.DTO.PlaceOrderRequestDTO;
 public interface OrderService {
 
     OrderResponseDTO placeOrder(PlaceOrderRequestDTO request);
+
+    Boolean orderExists(Long orderId);
 }

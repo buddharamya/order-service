@@ -3,6 +3,7 @@ package com.microserviceprojects.order_service.Service;
 import com.microserviceprojects.order_service.DTO.*;
 import com.microserviceprojects.order_service.Entity.OrderEntity;
 import com.microserviceprojects.order_service.Entity.OrderItem;
+import com.microserviceprojects.order_service.Exception.OrderIdNotFoundException;
 import com.microserviceprojects.order_service.FeignClients.ProductFeignClient;
 import com.microserviceprojects.order_service.FeignClients.CartFeignClient;
 import com.microserviceprojects.order_service.Repository.OrderRepository;
@@ -71,6 +72,17 @@ public class OrderServiceImpl implements OrderService{
         cartFeignClient.clearUserCart(request.getUserId());
 
         return mapToOrderResponse(savedOrder);
+    }
+
+    @Override
+    public Boolean orderExists(Long orderId) {
+        Boolean exists = orderRepository.existsById(orderId);
+
+        if(!exists) {
+
+            throw new OrderIdNotFoundException("Order not found with orderId: " + orderId);
+        }
+        return true;
     }
 
     private OrderResponseDTO mapToOrderResponse(OrderEntity savedOrder) {

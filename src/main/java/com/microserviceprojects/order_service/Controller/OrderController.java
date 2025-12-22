@@ -5,10 +5,7 @@ import com.microserviceprojects.order_service.DTO.PlaceOrderRequestDTO;
 import com.microserviceprojects.order_service.Service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
@@ -23,5 +20,11 @@ public class OrderController {
         log.info("OrderController placeOrder");
         OrderResponseDTO response = orderService.placeOrder(request);
         return response;
+    }
+
+    @GetMapping("/exists/{orderId}")
+    public Boolean orderExists(@PathVariable Long orderId) {
+        log.info("OrderController orderExists");
+        return orderService.orderExists(orderId);
     }
 }
